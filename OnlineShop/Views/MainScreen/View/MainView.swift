@@ -49,7 +49,7 @@ struct MainView: View {
                         
                     }
                     ToolbarItem( placement: .topBarTrailing) {
-                        NavigationLink(destination: CartView()) {
+                        NavigationLink(destination: CardView()) {
                             Image(systemName: "cart.fill")
                                 .font(.title2)
                         }
