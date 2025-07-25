@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProductCardView: View {
+    @EnvironmentObject var vm: ViewModel
     let product: Product
     var body: some View {
         GeometryReader { geo in
@@ -16,11 +17,11 @@ struct ProductCardView: View {
                 ZStack(alignment: .topTrailing) {
                     CardImageView(image: product.image, width: size.width, height: size.height)
                     Button {
-                        
+                        vm.toggleFavorites(product: product)
                     } label: {
                         Image(systemName: "heart.fill")
                             .padding(10)
-                            .foregroundStyle(product.isFavorite ? Color.pink : .white)
+                            .foregroundStyle(product.isFavorite ? Color.red : .white)
                             .background(Color.gray.opacity(0.2))
                             .clipShape(Circle())
                             .padding()
@@ -45,13 +46,7 @@ struct ProductCardView: View {
     }
 }
 
-//#Preview {
-//    ZStack {
-//        Color.blue
-//        ProductCardView(product: Product(name: "jhgfc", description: "jkj", image: "https://www.dior.com/dw/image/v2/BGXS_PRD/on/demandware.static/-/Sites-master_dior/default/dw9d025a6f/Bundles/Y2099849/Y2099849_E01_ZHC.jpg", price: 5, isFavorite: true))
-//    }
-//}
-
 #Preview {
-    CardView()
+    CartView()
+        .environmentObject(ViewModel())
 }
