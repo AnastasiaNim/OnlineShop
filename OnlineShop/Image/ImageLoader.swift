@@ -35,7 +35,7 @@ fileprivate struct NukeImageLoader: View {
                     .scaledToFill()
             } else if state.error != nil {
                 ZStack {
-                    Color.red
+                    Color.secondary
                     Text("Error loading image")// Indicates an error
                 }
             } else {
@@ -50,7 +50,7 @@ fileprivate struct NukeImageLoader: View {
     VStack {
         
         ImageLoader(urlString: nil)
-        ImageLoader(urlString: "https://fastly.picsum.photos/id/16/367/267.jpg?hmac=ZyyuET1a6X-Ym6MXK8OyHrdWFJiLI4To0iYLTlyrD-0")
+        ImageLoader(urlString: "https://www.dior.com/dw/image/v2/BGXS_PRD/on/demandware.static/-/Sites-master_dior/default/dw939ef2ef/Y0000048/Y0000048_E000000453_E01_ZHC.jpg")
         ImageLoader(urlString: "https://fastly.WRONGURL")
         
     }
