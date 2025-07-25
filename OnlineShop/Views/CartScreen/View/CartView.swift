@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CardView: View {
+struct CartView: View {
     var body: some View {
         VStack {
             
@@ -17,5 +17,5 @@ struct CardView: View {
 }
 
 #Preview {
-    CardView()
+    CartView()
 }
