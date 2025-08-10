@@ -10,9 +10,7 @@ import SwiftUI
 struct AuthScreen: View {
     @Environment(\.dismiss) var dismiss
     @State var isHaveAccount: Bool = false
-    @State var email: String = ""
-    @State var password: String = ""
-    @State var name: String = ""
+    @StateObject private var authFormManager = AuthValidationManager()
     @StateObject private var vm = AuthViewModel()
     var body: some View {
         GeometryReader { proxy in
@@ -20,7 +18,7 @@ struct AuthScreen: View {
             VStack(alignment: .leading, spacing: 0) {
                 
                 iconView(proxy.size.height)
-
+                
                 VStack(alignment: .leading, spacing: 0) {
                     if isHaveAccount {
                         haveAccountForm
@@ -55,6 +53,9 @@ struct AuthScreen: View {
             }
             .padding()
         }
+        .onAppear {
+            authFormManager.startValidation(true)
+        }
     }
 }
 
@@ -82,6 +83,7 @@ extension AuthScreen {
                 Text("Don't have an account? ")
                     .foregroundStyle(.primaryFont)
                 Button("Sign up") {
+                    authFormManager.startValidation(true)
                     withAnimation(.easeInOut) {
                         isHaveAccount = false
                     }
@@ -90,11 +92,12 @@ extension AuthScreen {
                 Text("Already have an account?")
                     .foregroundStyle(.primaryFont)
                 Button("Sign in") {
+                    authFormManager.startValidation(false)
                     withAnimation(.easeInOut) {
                         isHaveAccount = true
                     }
                 }
-              
+                
             }
         }
         .hCenter()
@@ -105,11 +108,9 @@ extension AuthScreen {
     private var haveAccountForm: some View {
         VStack(alignment: .leading, spacing: 30) {
             primaryText
-            PrimaryTextFieldView(text: $email, isSecured: false, placeholder: "Enter email", label: "Email", textContentType: .emailAddress)
-            PrimaryTextFieldView(text: $password, isSecured: true, placeholder: "Enter pass", label: "Password")
-            
+            emailForm
+            passwordForm
             mainButton
-            
             haveAccountButton
         }
     }
@@ -117,20 +118,50 @@ extension AuthScreen {
     private var newAccountForm: some View {
         VStack(alignment: .leading, spacing: 30) {
             primaryText
-            
-            PrimaryTextFieldView(text: $name, isSecured: false, placeholder: "Enter username", label: "Username", textContentType: .name)
-            PrimaryTextFieldView(text: $email, isSecured: false, placeholder: "Enter email", label: "Email", textContentType: .emailAddress)
+            nameForm
+            emailForm
             VStack(alignment: .leading, spacing: 20) {
-                PrimaryTextFieldView(text: $password, isSecured: true, placeholder: "Enter pass", label: "Password")
-                Text("By continuing you agree to our Terms of Service and Privacy Policy")
+                passwordForm
+                Text("By continuing you agree to our [Terms of Service](https://google.com) and [Privacy Policy](https://google.com)")
                     .font(.appFont(14))
                     .foregroundStyle(.secondaryFont)
                     .fixedSize(horizontal: false, vertical: true)
             }
-            
             mainButton
-            
             haveAccountButton
+        }
+    }
+    
+    private var emailForm: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            PrimaryTextFieldView(text: $authFormManager.email, isSecured: false, placeholder: "Enter email", label: "Email", textContentType: .emailAddress)
+                .textInputAutocapitalization(.never)
+            validText(authFormManager.emailValidStr)
+        }
+    }
+    
+    private var passwordForm: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            PrimaryTextFieldView(text: $authFormManager.password, isSecured: true, placeholder: "Enter pass", label: "Password")
+                .textInputAutocapitalization(.never)
+            validText(authFormManager.passwordValidStr)
+        }
+    }
+    
+    private var nameForm: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            PrimaryTextFieldView(text: $authFormManager.name, isSecured: false, placeholder: "Enter username", label: "Username", textContentType: .name)
+                .textInputAutocapitalization(.never)
+            validText(authFormManager.nameValidStr)
+        }
+    }
+    
+    @ViewBuilder
+    func validText(_ str: String?) -> some View {
+        if let str {
+            Text(str)
+                .font(.appFont(12))
+                .foregroundStyle(.red)
         }
     }
     
@@ -145,13 +176,15 @@ extension AuthScreen {
             }
         }
         .asMainButton {
+            guard authFormManager.isValid else { return }
             if isHaveAccount {
-                vm.signIn(email: email, password: password)
+                vm.signIn(email: authFormManager.email,
+                          password: authFormManager.password)
             } else {
-                vm.singUp(email: email, password: password, name: name)
+                vm.singUp(email: authFormManager.email,
+                          password: authFormManager.password, name: authFormManager.name)
             }
         }
-
     }
     
     private var primaryText: some View {
@@ -164,6 +197,4 @@ extension AuthScreen {
                 .foregroundStyle(.secondaryFont)
         }
     }
-    
-
 }
