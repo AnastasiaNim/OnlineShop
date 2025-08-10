@@ -8,11 +8,14 @@
 import Foundation
 import FirebaseFirestore
 
+//FavoriteProductManager
 final class ViewModel: ObservableObject {
-    private let db = Firestore.firestore().collection("shop")
+   // private let db = Firestore.firestore().collection("shop")
     
-    func toggleFavorites(product: Product) {
-        guard let id = product.id else { return }
-        db.document(id).updateData(["isFavorite": !product.isFavorite])
-    }
+//    func toggleFavorites(product: Product) {
+//        guard let id = product.id else { return }
+//        db.document(id).updateData(["isFavorite": !product.isFavorite])
+//    }
 }
+
+

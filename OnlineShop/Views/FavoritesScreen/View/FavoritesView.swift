@@ -10,17 +10,17 @@ import FirebaseFirestore
 
 struct FavoritesView: View {
     private var columns: [GridItem] = Array(repeating: GridItem(), count: 2)
-    @FirestoreQuery(collectionPath: "shop", predicates: [.isEqualTo("isFavorite", true)]) private var favoritesItems: [Product]
+//    @FirestoreQuery(collectionPath: FB.productsCollectionName, predicates: [.productIsFavorite]) private var favoritesItems: [Product]
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            LazyVGrid(columns: columns) {
-                ForEach(favoritesItems) { item in
-                    NavigationLink(destination: DetailView(product: item)) {
-                        ProductCardView(product: item)
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
+//            LazyVGrid(columns: columns) {
+//                ForEach(favoritesItems) { item in
+//                    NavigationLink(destination: DetailView(product: item)) {
+//                        ProductCardView(product: item)
+//                    }
+//                    .buttonStyle(.plain)
+//                }
+//            }
         }
         .padding(.horizontal, 10)
         .background(.secondary.opacity(0.3))
@@ -31,3 +31,5 @@ struct FavoritesView: View {
 #Preview {
     FavoritesView()
 }
+
+

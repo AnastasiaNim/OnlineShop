@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-
 struct DetailInfoView: View {
+    @EnvironmentObject var basketManager: BasketManager
     let product: Product
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -25,11 +25,15 @@ struct DetailInfoView: View {
                 .lineLimit(6)
             
             Spacer()
-            
+            let isAdded = basketManager.isAddedToBasket(product)
             Button {
-                
+                if isAdded {
+                    basketManager.removeProduct(product)
+                } else {
+                    basketManager.addProductToBasket(product)
+                }
             } label: {
-                Text("Add to cart")
+                Text(isAdded ? "Remove" : "Add to cart")
                     .frame(maxWidth: .infinity)
                     .fontWeight(.bold)
                     .foregroundStyle(Color.white)

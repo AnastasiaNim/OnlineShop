@@ -45,11 +45,11 @@ struct ProductRow: View {
                         }
                         .buttonStyle(.plain)
                         
-                        if let quanlityInCart = product.quanlityInCart{
-                            
-                            Text("\(quanlityInCart)")
-                                .titleFont()
-                        }
+//                        if let quanlityInCart = product.quanlityInCart{
+//                            
+//                            Text("\(quanlityInCart)")
+//                                .titleFont()
+//                        }
                         Button {
                             
                         } label: {
@@ -75,6 +75,6 @@ struct ProductRow: View {
     }
 }
 
-#Preview {
-    ProductRow(product: Product(id: "d", name: "Dior Backstage Rosy Glow Stick", description: "Complete your glow routine with an exclusive Glow Makeup Trio by clicking here, designed for a radiant, rosy pink glow. The Dior blush stick offers 12 hours¹ of custom colour and a dewy-glow finish that reflects light, for cheekbones that appear enhanced and plumped. Powered by a unique technology², each shade reacts to the skin's pH and takes on cool pink or warm coral undertones. Moisturising and comfortable, the creamy texture of the Rosy Glow blush stick blends seamlessly with the skin for a bare-skin effect for a clean look. - SHADES: 7 shades that adapt to skin's pH for a custom makeup result - FINISHES: 2 dewy-glow finishes, radiant and pearlescent - COVERAGE: buildable, for natural to intense looks - TEXTURE: smooth and easy to blend - CARE: 12 hours of hydration³ and comfortable wear powered by a formula infused with cherry oil ¹ Instrumental test on 25 women. ² At Dior. ³ Instrumental test on 30 subjects.", image: "https://www.dior.com/dw/image/v2/BGXS_PRD/on/demandware.static/-/Sites-master_dior/default/dw939ef2ef/Y0000048/Y0000048_E000000453_E01_ZHC.jpg", price: 37, isFavorite: true, quanlityInCart: 1))
-}
+//#Preview {
+//    ProductRow(product: Product(id: "d", name: "Dior Backstage Rosy Glow Stick", description: "Complete your glow routine with an exclusive Glow Makeup Trio by clicking here, designed for a radiant, rosy pink glow. The Dior blush stick offers 12 hours¹ of custom colour and a dewy-glow finish that reflects light, for cheekbones that appear enhanced and plumped. Powered by a unique technology², each shade reacts to the skin's pH and takes on cool pink or warm coral undertones. Moisturising and comfortable, the creamy texture of the Rosy Glow blush stick blends seamlessly with the skin for a bare-skin effect for a clean look. - SHADES: 7 shades that adapt to skin's pH for a custom makeup result - FINISHES: 2 dewy-glow finishes, radiant and pearlescent - COVERAGE: buildable, for natural to intense looks - TEXTURE: smooth and easy to blend - CARE: 12 hours of hydration³ and comfortable wear powered by a formula infused with cherry oil ¹ Instrumental test on 25 women. ² At Dior. ³ Instrumental test on 30 subjects.", image: "https://www.dior.com/dw/image/v2/BGXS_PRD/on/demandware.static/-/Sites-master_dior/default/dw939ef2ef/Y0000048/Y0000048_E000000453_E01_ZHC.jpg", price: 37, isFavorite: true, quanlityInCart: 1))
+//}

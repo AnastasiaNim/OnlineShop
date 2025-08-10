@@ -13,8 +13,7 @@ import NukeUI
 struct ImageLoader: View {
     let urlString: String?
     var body: some View {
-        Rectangle()
-            .opacity(0)
+        Color.clear
             .overlay {
                 NukeImageLoader(url: URL(string: urlString ?? ""))
                     .allowsHitTesting(false)

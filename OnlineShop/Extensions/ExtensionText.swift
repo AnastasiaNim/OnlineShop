@@ -22,17 +22,13 @@ extension Text {
     }
 }
 
-struct FontView: View {
-    var body: some View {
+
+#Preview {
+    VStack {
         Text("Title")
             .titleFont()
         
         Text("Subtitle")
             .subtitle()
     }
-}
-
-
-#Preview {
-    FontView()
 }

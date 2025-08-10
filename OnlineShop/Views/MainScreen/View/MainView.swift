@@ -10,47 +10,64 @@ import FirebaseFirestore
 
 struct MainView: View {
     @EnvironmentObject var vm: ViewModel
-    @FirestoreQuery(collectionPath: "shop") var items: [Product]
-    private var columns: [GridItem] = Array(repeating: GridItem(), count: 2)
+    @StateObject private var router = MainRouter()
+    @StateObject private var accountManager = UserAccountManager()
+    @StateObject private var basketManager = BasketManager()
     var body: some View {
-        NavigationStack {
-            ScrollView(.vertical, showsIndicators: false) {
-                LazyVGrid(columns: columns) {
-                    ForEach(items) { item in
-                        NavigationLink(destination: DetailView(product: item)) {
-                            ProductCardView(product: item)
-                        }
-                        .buttonStyle(.plain)
+        NavigationStack(path: $router.navPath) {
+            TabView(selection: $router.currentTab) {
+                CatalogScreen()
+                    .tag(AppTab.catalog)
+                    .tabItem {
+                        Label(AppTab.catalog.title, systemImage: AppTab.catalog.imageSysName)
                     }
+                
+                CartView()
+                    .tag(AppTab.cart)
+                    .tabItem {
+                        Label(AppTab.cart.title, systemImage: AppTab.cart.imageSysName)
+                    }
+                    .badge(basketManager.itemsCount)
+                
+                ProfileScreen()
+                    .tag(AppTab.profile)
+                    .tabItem {
+                        Label(AppTab.profile.title, systemImage: AppTab.profile.imageSysName)
+                    }
+            }
+            .navigationDestination(for: NavigationLinkType.self) { type in
+                switch type {
+                case .productDetails(let item):
+                    DetailView(product: item)
+                case .createOrder:
+                    Text("createOrder")
+                case .favoriteProducts:
+                    Text("favoriteProducts")
+                case .ordersHistory:
+                    Text("ordersHistory")
                 }
             }
-            .padding(.horizontal, 10)
-            .background(Color.secondary.opacity(0.2))
-            .shadow(color: .secondary.opacity(0.2), radius: 8, x: 5, y: 8)
-            .navigationTitle("Products")
-            .toolbar {
-                ToolbarItem( placement: .topBarLeading) {
-                    NavigationLink(destination: FavoritesView()) {
-                        Image(systemName: "heart.fill")
-                            .font(.title2)
-                        
-                    }
-                    .buttonStyle(.plain)
-                    
-                }
-                ToolbarItem( placement: .topBarTrailing) {
-                    NavigationLink(destination: CartView()) {
-                        Image(systemName: "cart.fill")
-                            .font(.title2)
-                    }
-                    .buttonStyle(.plain)
-                }
+            .fullScreenCover(isPresented: $router.isShowAuth,
+                             onDismiss: onDismissAuth) {
+                AuthScreen()
             }
         }
+        .environmentObject(router)
+        .environmentObject(accountManager)
+        .environmentObject(basketManager)
     }
 }
 
 #Preview {
     MainView()
         .environmentObject(ViewModel())
+}
+
+extension MainView {
+    
+    func onDismissAuth() {
+        accountManager.startUserListenerIfNeeded()
+        basketManager.uploadBasket()
+    }
+    
 }

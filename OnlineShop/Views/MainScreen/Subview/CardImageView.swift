@@ -14,9 +14,13 @@ struct CardImageView: View {
     let height: CGFloat
     
     var body: some View {
-        ImageLoader(urlString: image)
-            .frame(width: width, height: height)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
+        ZStack {
+            Color.white
+            ImageLoader(urlString: image)
+        }
+        .frame(width: width, height: height)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .contentShape(RoundedRectangle(cornerRadius: 20))
     }
 }
 
